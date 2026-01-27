@@ -3,135 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCANMATIC AUTOTECH | Catálogo de Cursos</title>
+    <title>SCANMATIC AUTOTECH | Formación Automotriz Pro</title>
     <style>
         :root {
             --primary-dark: #0a192f;
             --accent-red: #e11d48;
             --button-blue: #004a99;
-            --bg-gray: #f8fafc;
-            --text-main: #1e293b;
+            --text-main: #f8fafc;
             --whatsapp-green: #25d366;
             --telegram-blue: #0088cc;
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--bg-gray);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--primary-dark);
             color: var(--text-main);
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
-        /* Encabezado */
+        /* --- VIDEO DE FONDO --- */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        /* Capa de opacidad para equilibrio estético/funcional */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.88); /* Ajusta el 0.88 si quieres más o menos visibilidad del video */
+            z-index: -1;
+        }
+
+        /* --- CONTENIDO --- */
         header {
-            background: linear-gradient(180deg, var(--primary-dark) 0%, #112240 100%);
-            color: white;
-            padding: 50px 20px;
+            padding: 60px 20px;
             text-align: center;
             border-bottom: 5px solid var(--accent-red);
         }
 
         .logo-container img {
-            max-width: 180px;
+            max-width: 220px;
             height: auto;
             margin-bottom: 20px;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+            filter: drop-shadow(0 0 15px rgba(225, 29, 72, 0.4));
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
-        header .subtitle {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            margin-top: 10px;
+        header .highlight {
+            color: var(--accent-red);
         }
 
-        /* Contenedor de Cursos */
         .container {
             max-width: 1200px;
-            margin: -30px auto 40px;
+            margin: 40px auto;
             padding: 0 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
         }
 
-        /* Tarjetas */
+        /* Tarjetas estilo High-Tech */
         .card {
-            background: white;
+            background: rgba(17, 34, 64, 0.75);
             border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
             display: flex;
             flex-direction: column;
-            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px);
             border-color: var(--accent-red);
+            background: rgba(17, 34, 64, 0.95);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .card-body {
-            padding: 30px;
+            padding: 35px;
+            text-align: center;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            text-align: center;
         }
 
         .course-number {
+            font-size: 0.75rem;
             color: var(--accent-red);
             font-weight: bold;
-            font-size: 0.8rem;
             margin-bottom: 10px;
-            display: block;
+            letter-spacing: 1px;
         }
 
         .card-title {
             font-size: 1.25rem;
-            margin: 0 0 20px 0;
-            color: var(--primary-dark);
+            margin: 0 0 25px 0;
+            line-height: 1.4;
             min-height: 3.5em;
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 1.3;
+            text-transform: uppercase;
         }
 
-        /* Botones */
         .btn {
-            display: block;
             background-color: var(--button-blue);
             color: white;
-            text-align: center;
             padding: 16px;
             text-decoration: none;
             border-radius: 6px;
             font-weight: bold;
             text-transform: uppercase;
-            transition: all 0.3s;
+            transition: 0.3s;
             margin-top: auto;
         }
 
         .btn:hover {
             background-color: var(--accent-red);
-            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
+            box-shadow: 0 0 15px rgba(225, 29, 72, 0.6);
         }
 
-        /* Sección Contacto */
+        /* --- SECCIÓN CONTACTO --- */
         .contact-section {
-            max-width: 800px;
-            margin: 60px auto;
+            background: rgba(10, 25, 47, 0.9);
+            padding: 60px 20px;
             text-align: center;
-            padding: 0 20px;
+            margin-top: 40px;
         }
 
         .contact-buttons {
@@ -139,118 +166,113 @@
             justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .btn-contact {
-            padding: 12px 25px;
+            padding: 14px 30px;
             border-radius: 50px;
             text-decoration: none;
             color: white;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: opacity 0.3s;
+            transition: transform 0.2s;
         }
 
         .btn-whatsapp { background-color: var(--whatsapp-green); }
         .btn-telegram { background-color: var(--telegram-blue); }
-        .btn-contact:hover { opacity: 0.85; }
+        .btn-contact:hover { transform: scale(1.05); }
 
         footer {
-            background: var(--primary-dark);
-            color: white;
+            padding: 40px;
             text-align: center;
-            padding: 40px 20px;
-        }
-
-        .footer-logo {
-            max-width: 80px;
-            margin-bottom: 15px;
-            opacity: 0.6;
+            font-size: 0.9rem;
+            background: #050c18;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-container">
-        <img src="logo.png" alt="SCANMATIC AUTOTECH LOGO" onerror="this.style.display='none'">
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="oscilograma.mp4" type="video/mp4">
+        </video>
     </div>
-    <h1>Formación <span style="color: var(--accent-red);">Automotriz</span> Pro</h1>
-    <p class="subtitle">Capacitación técnica de alto nivel para especialistas</p>
-</header>
-
-<div class="container">
     
-    <div class="card">
-        <div class="card-body">
-            <span class="course-number">01. ELECTRICIDAD Y ELECTRÓNICA</span>
-            <h3 class="card-title">ELECTRICIDAD Y ELECTRONICA DEL VEHICULO</h3>
-            <a href="https://go.hotmart.com/N103698980Q?dp=1" target="_blank" class="btn">Más Información</a>
+    <div class="overlay"></div>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="SCANMATIC AUTOTECH" onerror="this.style.display='none'">
         </div>
-    </div>
+        <h1>SCANMATIC <span class="highlight">AUTOTECH</span></h1>
+        <p>Capacitación de Élite en Electrónica Automotriz</p>
+    </header>
 
-    <div class="card">
-        <div class="card-body">
-            <span class="course-number">02. SEGURIDAD Y GPS</span>
-            <h3 class="card-title">INSTALACIONS DE GPS PARA VEHICULOS</h3>
-            <a href="https://go.hotmart.com/E103699087L?dp=1" target="_blank" class="btn">Más Información</a>
+    <div class="container">
+        
+        <div class="card">
+            <div class="card-body">
+                <span class="course-number">MÓDULO 01</span>
+                <h3 class="card-title">ELECTRICIDAD Y ELECTRONICA DEL VEHICULO</h3>
+                <a href="https://go.hotmart.com/N103698980Q?dp=1" target="_blank" class="btn">Ver Información</a>
+            </div>
         </div>
-    </div>
 
-    <div class="card">
-        <div class="card-body">
-            <span class="course-number">03. MECÁNICA INTEGRAL</span>
-            <h3 class="card-title">ESPECIALIZTA EN MECANICA DE AUTOS PACK 3 EN 1</h3>
-            <a href="https://go.hotmart.com/R103699045K?dp=1" target="_blank" class="btn">Más Información</a>
+        <div class="card">
+            <div class="card-body">
+                <span class="course-number">MÓDULO 02</span>
+                <h3 class="card-title">INSTALACIONS DE GPS PARA VEHICULOS</h3>
+                <a href="https://go.hotmart.com/E103699087L?dp=1" target="_blank" class="btn">Ver Información</a>
+            </div>
         </div>
-    </div>
 
-    <div class="card">
-        <div class="card-body">
-            <span class="course-number">04. PROGRAMACIÓN J2534</span>
-            <h3 class="card-title">Pack Chevrolet: Diagnóstico, Programación y Sistemas Electrónicos J2534</h3>
-            <a href="https://go.hotmart.com/E103698996G?dp=1" target="_blank" class="btn">Más Información</a>
+        <div class="card">
+            <div class="card-body">
+                <span class="course-number">MÓDULO 03</span>
+                <h3 class="card-title">ESPECIALIZTA EN MECANICA DE AUTOS PACK 3 EN 1</h3>
+                <a href="https://go.hotmart.com/R103699045K?dp=1" target="_blank" class="btn">Ver Información</a>
+            </div>
         </div>
-    </div>
 
-    <div class="card">
-        <div class="card-body">
-            <span class="course-number">05. ESTÉTICA Y NEGOCIO</span>
-            <h3 class="card-title">Polarizado de Autos Paso a Paso como Negocio</h3>
-            <a href="https://go.hotmart.com/N103699068P?dp=1" target="_blank" class="btn">Más Información</a>
+        <div class="card">
+            <div class="card-body">
+                <span class="course-number">MÓDULO 04</span>
+                <h3 class="card-title">Pack Chevrolet: Diagnóstico, Programación y Sistemas Electrónicos J2534</h3>
+                <a href="https://go.hotmart.com/E103698996G?dp=1" target="_blank" class="btn">Ver Información</a>
+            </div>
         </div>
-    </div>
 
-    <div class="card">
-        <div class="card-body">
-            <span class="course-number">06. EMPRENDIMIENTO TECH</span>
-            <h3 class="card-title">Vive de la electrónica de autos</h3>
-            <a href="https://go.hotmart.com/G103698963J?dp=1" target="_blank" class="btn">Más Información</a>
+        <div class="card">
+            <div class="card-body">
+                <span class="course-number">MÓDULO 05</span>
+                <h3 class="card-title">Polarizado de Autos Paso a Paso como Negocio</h3>
+                <a href="https://go.hotmart.com/N103699068P?dp=1" target="_blank" class="btn">Ver Información</a>
+            </div>
         </div>
+
+        <div class="card">
+            <div class="card-body">
+                <span class="course-number">MÓDULO 06</span>
+                <h3 class="card-title">Vive de la electrónica de autos</h3>
+                <a href="https://go.hotmart.com/G103698963J?dp=1" target="_blank" class="btn">Ver Información</a>
+            </div>
+        </div>
+
     </div>
 
-</div>
+    <section class="contact-section">
+        <h3>¿Necesitas asesoría personalizada?</h3>
+        <p>Escríbenos directamente si tienes dudas sobre los temarios o el acceso.</p>
+        <div class="contact-buttons">
+            <a href="https://wa.me/51944085764" target="_blank" class="btn-contact btn-whatsapp">WhatsApp Soporte</a>
+            <a href="https://t.me/ScanMatic_AutoTech" target="_blank" class="btn-contact btn-telegram">Comunidad Telegram</a>
+        </div>
+    </section>
 
-<section class="contact-section">
-    <h3>¿Tienes dudas sobre los cursos?</h3>
-    <p>Contáctanos directamente o únete a nuestra comunidad para recibir soporte técnico.</p>
-    <div class="contact-buttons">
-        <a href="https://wa.me/51944085764" target="_blank" class="btn-contact btn-whatsapp">
-            WhatsApp Soporte
-        </a>
-        <a href="https://t.me/ScanMatic_AutoTech" target="_blank" class="btn-contact btn-telegram">
-            Canal Telegram
-        </a>
-    </div>
-</section>
-
-<footer>
-    <img src="logo.png" alt="SCANMATIC" class="footer-logo" onerror="this.style.display='none'">
-    <p>&copy; 2026 SCANMATIC AUTOTECH | Especialistas en Diagnóstico Automotriz</p>
-</footer>
+    <footer>
+        &copy; 2026 SCANMATIC AUTOTECH | Innovación en Diagnóstico Automotriz
+    </footer>
 
 </body>
 </html>
