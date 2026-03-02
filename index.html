@@ -1,883 +1,125 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCANMATIC AUTOTECH | Formacion Automotriz Pro</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;700;800&display=swap');
-
-        :root {
-            --bg: #07111f;
-            --bg-soft: rgba(7, 17, 31, 0.78);
-            --panel: rgba(9, 24, 43, 0.72);
-            --panel-strong: rgba(8, 20, 38, 0.9);
-            --line: rgba(143, 173, 204, 0.18);
-            --line-strong: rgba(255, 92, 92, 0.35);
-            --text: #eef4ff;
-            --muted: #adc1d9;
-            --accent: #ff5c5c;
-            --accent-strong: #ff2f4d;
-            --signal: #3dd9c4;
-            --action: #0d7ce8;
-            --action-hover: #ff2f4d;
-            --shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
-            --radius-xl: 28px;
-            --radius-lg: 20px;
-            --radius-md: 14px;
-            --max-width: 1240px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            color: var(--text);
-            font-family: 'Manrope', sans-serif;
-            background:
-                radial-gradient(circle at top left, rgba(255, 47, 77, 0.16), transparent 28%),
-                radial-gradient(circle at 85% 20%, rgba(61, 217, 196, 0.12), transparent 25%),
-                linear-gradient(180deg, #06101d 0%, #081322 42%, #050b14 100%);
-            overflow-x: hidden;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        .video-background,
-        .overlay,
-        .grid-overlay {
-            position: fixed;
-            inset: 0;
-        }
-
-        .video-background {
-            z-index: -3;
-            overflow: hidden;
-        }
-
-        .video-background video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: saturate(1.15) contrast(1.05);
-        }
-
-        .overlay {
-            z-index: -2;
-            background:
-                linear-gradient(180deg, rgba(4, 8, 16, 0.35) 0%, rgba(4, 8, 16, 0.76) 48%, rgba(3, 7, 13, 0.96) 100%),
-                linear-gradient(90deg, rgba(255, 47, 77, 0.08), rgba(61, 217, 196, 0.04));
-        }
-
-        .grid-overlay {
-            z-index: -1;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-            background-size: 34px 34px;
-            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.75), transparent 82%);
-            opacity: 0.23;
-        }
-
-        .page-shell {
-            width: min(var(--max-width), calc(100% - 32px));
-            margin: 0 auto;
-        }
-
-        .hero {
-            min-height: 100vh;
-            padding: 28px 0 72px;
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-panel {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-            gap: 28px;
-            width: 100%;
-            align-items: stretch;
-        }
-
-        .hero-copy,
-        .hero-aside,
-        .courses,
-        .contact-section,
-        footer {
-            border: 1px solid var(--line);
-            backdrop-filter: blur(16px);
-            box-shadow: var(--shadow);
-        }
-
-        .hero-copy,
-        .hero-aside {
-            background: linear-gradient(180deg, rgba(11, 25, 44, 0.72), rgba(8, 18, 33, 0.9));
-            border-radius: var(--radius-xl);
-        }
-
-        .hero-copy {
-            padding: 34px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-copy::before {
-            content: "";
-            position: absolute;
-            width: 220px;
-            height: 220px;
-            top: -70px;
-            right: -40px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 92, 92, 0.24), transparent 68%);
-        }
-
-        .topbar {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            margin-bottom: 28px;
-        }
-
-        .logo-wrap {
-            width: 86px;
-            height: 86px;
-            display: grid;
-            place-items: center;
-            border-radius: 22px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            flex-shrink: 0;
-        }
-
-        .logo-wrap img {
-            width: 76%;
-            height: auto;
-            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.35));
-        }
-
-        .eyebrow,
-        .stat-label,
-        .module-tag {
-            font-family: 'Rajdhani', sans-serif;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 14px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 0.88rem;
-            color: var(--signal);
-        }
-
-        .eyebrow::before {
-            content: "";
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--signal);
-            box-shadow: 0 0 18px rgba(61, 217, 196, 0.9);
-        }
-
-        h1,
-        h2,
-        h3 {
-            margin: 0;
-            font-family: 'Rajdhani', sans-serif;
-            line-height: 0.95;
-            text-transform: uppercase;
-        }
-
-        .hero h1 {
-            margin-top: 22px;
-            font-size: clamp(3.2rem, 9vw, 6.6rem);
-        }
-
-        .hero h1 span {
-            color: var(--accent);
-        }
-
-        .hero-lead {
-            max-width: 720px;
-            margin: 18px 0 0;
-            font-size: clamp(1rem, 2.2vw, 1.18rem);
-            line-height: 1.7;
-            color: var(--muted);
-        }
-
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 54px;
-            padding: 0 24px;
-            border-radius: 999px;
-            font-weight: 800;
-            font-size: 0.96rem;
-            letter-spacing: 0.04em;
-            text-decoration: none;
-            transition: transform 0.22s ease, background-color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--action) 0%, #27a2ff 100%);
-            color: #fff;
-            box-shadow: 0 18px 35px rgba(13, 124, 232, 0.28);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: var(--text);
-        }
-
-        .btn:hover,
-        .btn:focus-visible,
-        .course-link:hover,
-        .course-link:focus-visible,
-        .contact-link:hover,
-        .contact-link:focus-visible {
-            transform: translateY(-2px);
-        }
-
-        .btn-primary:hover,
-        .btn-primary:focus-visible,
-        .course-link:hover,
-        .course-link:focus-visible {
-            background: linear-gradient(135deg, var(--accent-strong) 0%, #ff7b63 100%);
-            box-shadow: 0 18px 35px rgba(255, 47, 77, 0.3);
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 14px;
-            margin-top: 32px;
-        }
-
-        .stat {
-            padding: 18px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .stat-value {
-            display: block;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        .stat-value.is-loading,
-        .click-count.is-loading {
-            opacity: 0.7;
-        }
-
-        .stat-label {
-            font-size: 0.82rem;
-            color: var(--muted);
-            margin-top: 6px;
-        }
-
-        .hero-aside {
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 20px;
-            border-color: var(--line-strong);
-        }
-
-        .aside-card {
-            padding: 22px;
-            border-radius: 22px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .aside-card p,
-        .contact-section p,
-        .section-intro {
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        .aside-list {
-            display: grid;
-            gap: 12px;
-            margin: 18px 0 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .aside-list li {
-            padding: 14px 16px;
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.18);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .aside-list strong {
-            display: block;
-            font-size: 0.98rem;
-            color: #fff;
-        }
-
-        .aside-list span {
-            display: block;
-            margin-top: 4px;
-            font-size: 0.93rem;
-            color: var(--muted);
-        }
-
-        .courses {
-            background: var(--bg-soft);
-            margin-top: -48px;
-            border-radius: 32px 32px 0 0;
-            padding: 82px 0 74px;
-            position: relative;
-        }
-
-        .section-head {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 18px;
-            margin-bottom: 28px;
-        }
-
-        .section-head h2 {
-            font-size: clamp(2rem, 4vw, 3.2rem);
-        }
-
-        .section-head .section-copy {
-            max-width: 440px;
-        }
-
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 20px;
-        }
-
-        .course-card {
-            display: flex;
-            flex-direction: column;
-            min-height: 100%;
-            padding: 24px;
-            border-radius: 24px;
-            background: linear-gradient(180deg, rgba(11, 26, 45, 0.86), rgba(8, 18, 33, 0.96));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .course-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255, 92, 92, 0.48);
-            box-shadow: 0 22px 44px rgba(0, 0, 0, 0.34);
-        }
-
-        .module-tag {
-            display: inline-flex;
-            align-self: flex-start;
-            margin-bottom: 14px;
-            padding: 7px 12px;
-            border-radius: 999px;
-            background: rgba(255, 92, 92, 0.11);
-            color: #ff9e9e;
-            font-size: 0.84rem;
-        }
-
-        .course-card h3 {
-            font-size: 1.5rem;
-            line-height: 1.08;
-        }
-
-        .course-card p {
-            margin: 14px 0 22px;
-            color: var(--muted);
-            line-height: 1.65;
-            flex-grow: 1;
-        }
-
-        .course-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding-top: 4px;
-            font-size: 0.92rem;
-            color: var(--muted);
-        }
-
-        .click-count {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 7px 11px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            white-space: nowrap;
-        }
-
-        .click-count strong {
-            color: #fff;
-        }
-
-        .course-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            min-height: 50px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--action) 0%, #2b97f4 100%);
-            color: #fff;
-            font-weight: 800;
-            text-decoration: none;
-            letter-spacing: 0.04em;
-            transition: transform 0.22s ease, background-color 0.22s ease, box-shadow 0.22s ease;
-        }
-
-        .contact-section {
-            margin: 0 auto 32px;
-            padding: 34px;
-            border-radius: 28px;
-            background: linear-gradient(180deg, rgba(10, 24, 44, 0.92), rgba(7, 18, 34, 0.94));
-        }
-
-        .contact-layout {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 22px;
-        }
-
-        .contact-actions {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 52px;
-            padding: 0 22px;
-            border-radius: 999px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 800;
-            transition: transform 0.22s ease, box-shadow 0.22s ease;
-        }
-
-        .contact-link.whatsapp {
-            background: linear-gradient(135deg, #1ebe5d 0%, #3de279 100%);
-            box-shadow: 0 14px 28px rgba(37, 211, 102, 0.22);
-        }
-
-        .contact-link.telegram {
-            background: linear-gradient(135deg, #007dbf 0%, #27a9e8 100%);
-            box-shadow: 0 14px 28px rgba(0, 136, 204, 0.22);
-        }
-
-        footer {
-            background: var(--panel-strong);
-            border-radius: 26px 26px 0 0;
-            border-bottom: 0;
-            padding: 26px 0 34px;
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
-
-        @media (max-width: 1080px) {
-            .hero-panel,
-            .courses-grid,
-            .contact-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-panel {
-                display: grid;
-            }
-
-            .courses-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .contact-layout {
-                display: grid;
-            }
-        }
-
-        @media (max-width: 760px) {
-            .hero {
-                min-height: auto;
-                padding: 20px 0 56px;
-            }
-
-            .page-shell {
-                width: min(var(--max-width), calc(100% - 20px));
-            }
-
-            .hero-copy,
-            .hero-aside,
-            .contact-section {
-                padding: 22px;
-            }
-
-            .topbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .hero-stats,
-            .courses-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section-head {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .courses {
-                margin-top: -22px;
-                padding: 58px 0 56px;
-                border-radius: 24px 24px 0 0;
-            }
-
-            .contact-actions,
-            .hero-actions {
-                width: 100%;
-            }
-
-            .btn,
-            .contact-link {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="video-background" aria-hidden="true">
-        <video autoplay muted loop playsinline>
-            <source src="oscilograma.mp4" type="video/mp4">
-        </video>
-    </div>
-    <div class="overlay" aria-hidden="true"></div>
-    <div class="grid-overlay" aria-hidden="true"></div>
-
-    <header class="hero">
-        <div class="page-shell">
-            <div class="hero-panel">
-                <section class="hero-copy">
-                    <div class="topbar">
-                        <div class="logo-wrap">
-                            <img src="logo.png" alt="Logo de ScanMatic Autotech" onerror="this.style.display='none'">
-                        </div>
-                        <div>
-                            <span class="eyebrow">Formacion tecnica especializada</span>
-                        </div>
-                    </div>
-
-                    <h1>ScanMatic <span>Autotech</span></h1>
-                    <p class="hero-lead">
-                        Plataforma de capacitacion automotriz enfocada en diagnostico, electronica, programacion y servicios
-                        tecnicos con enfoque comercial. Todo presentado en una portada mas clara, mas actual y pensada para convertir.
-                    </p>
-
-                    <div class="hero-actions">
-                        <a href="#modulos" class="btn btn-primary">Explorar modulos</a>
-                        <a href="#contacto" class="btn btn-secondary">Hablar con soporte</a>
-                    </div>
-
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <span class="stat-value">6</span>
-                            <span class="stat-label">Modulos activos</span>
-                        </div>
-                        <div class="stat">
-                            <span id="visit-counter" class="stat-value is-loading">...</span>
-                            <span class="stat-label">Visitas registradas</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value">100%</span>
-                            <span class="stat-label">Acceso online</span>
-                        </div>
-                    </div>
-                </section>
-
-                <aside class="hero-aside">
-                    <div class="aside-card">
-                        <span class="eyebrow">Ruta destacada</span>
-                        <h2 style="margin-top:16px; font-size:2rem;">Electronica automotriz aplicada al trabajo real</h2>
-                        <p>
-                            La nueva estructura prioriza lectura rapida, llamadas a la accion claras y una presentacion con mas
-                            caracter visual sin perder velocidad de carga.
-                        </p>
-                    </div>
-
-                    <ul class="aside-list">
-                        <li>
-                            <strong>Diagnostico y programacion</strong>
-                            <span>Contenido orientado a intervenciones tecnicas reales.</span>
-                        </li>
-                        <li>
-                            <strong>Aprendizaje comercializable</strong>
-                            <span>Cursos pensados para monetizar servicios y especializarte.</span>
-                        </li>
-                        <li>
-                            <strong>Acceso directo a la oferta</strong>
-                            <span>Botones visibles y recorrido mas corto hasta cada modulo.</span>
-                        </li>
-                    </ul>
-                </aside>
-            </div>
-        </div>
-    </header>
-
-    <main id="modulos" class="courses">
-        <div class="page-shell">
-            <div class="section-head">
-                <div>
-                    <span class="eyebrow">Catalogo formativo</span>
-                    <h2 style="margin-top:14px;">Modulos disponibles</h2>
-                </div>
-                <p class="section-copy section-intro">
-                    Cada tarjeta fue redisenada para mejorar contraste, legibilidad y respuesta tactil en pantallas pequenas.
-                </p>
-            </div>
-
-            <div class="courses-grid">
-                <article class="course-card">
-                    <span class="module-tag">Modulo 01</span>
-                    <h3>Electricidad y electronica del vehiculo</h3>
-                    <p>Base tecnica para comprender circuitos, senales, componentes y fallas frecuentes en sistemas automotrices.</p>
-                    <div class="course-meta">
-                        <span>Acceso al detalle</span>
-                        <span class="click-count is-loading" data-click-display="modulo-01">Clicks: <strong>...</strong></span>
-                    </div>
-                    <a href="https://go.hotmart.com/N103698980Q?dp=1" target="_blank" rel="noopener noreferrer" class="course-link" data-course-key="modulo-01">Ver informacion</a>
-                </article>
-
-                <article class="course-card">
-                    <span class="module-tag">Modulo 02</span>
-                    <h3>Instalaciones de GPS para vehiculos</h3>
-                    <p>Implementacion practica de sistemas de rastreo, conexiones, integracion y enfoque de servicio rentable.</p>
-                    <div class="course-meta">
-                        <span>Acceso al detalle</span>
-                        <span class="click-count is-loading" data-click-display="modulo-02">Clicks: <strong>...</strong></span>
-                    </div>
-                    <a href="https://go.hotmart.com/E103699087L?dp=1" target="_blank" rel="noopener noreferrer" class="course-link" data-course-key="modulo-02">Ver informacion</a>
-                </article>
-
-                <article class="course-card">
-                    <span class="module-tag">Modulo 03</span>
-                    <h3>Especialista en mecanica de autos pack 3 en 1</h3>
-                    <p>Ruta compacta para reforzar fundamentos mecanicos y ampliar tu alcance tecnico en taller o servicio propio.</p>
-                    <div class="course-meta">
-                        <span>Acceso al detalle</span>
-                        <span class="click-count is-loading" data-click-display="modulo-03">Clicks: <strong>...</strong></span>
-                    </div>
-                    <a href="https://go.hotmart.com/R103699045K?dp=1" target="_blank" rel="noopener noreferrer" class="course-link" data-course-key="modulo-03">Ver informacion</a>
-                </article>
-
-                <article class="course-card">
-                    <span class="module-tag">Modulo 04</span>
-                    <h3>Pack Chevrolet: diagnostico, programacion y sistemas J2534</h3>
-                    <p>Especializacion enfocada en intervenciones avanzadas, software, modulos y procesos de programacion.</p>
-                    <div class="course-meta">
-                        <span>Acceso al detalle</span>
-                        <span class="click-count is-loading" data-click-display="modulo-04">Clicks: <strong>...</strong></span>
-                    </div>
-                    <a href="https://go.hotmart.com/E103698996G?dp=1" target="_blank" rel="noopener noreferrer" class="course-link" data-course-key="modulo-04">Ver informacion</a>
-                </article>
-
-                <article class="course-card">
-                    <span class="module-tag">Modulo 05</span>
-                    <h3>Polarizado de autos paso a paso como negocio</h3>
-                    <p>Entrenamiento orientado a ejecucion tecnica, acabado profesional y construccion de una oferta comercial clara.</p>
-                    <div class="course-meta">
-                        <span>Acceso al detalle</span>
-                        <span class="click-count is-loading" data-click-display="modulo-05">Clicks: <strong>...</strong></span>
-                    </div>
-                    <a href="https://go.hotmart.com/N103699068P?dp=1" target="_blank" rel="noopener noreferrer" class="course-link" data-course-key="modulo-05">Ver informacion</a>
-                </article>
-
-                <article class="course-card">
-                    <span class="module-tag">Modulo 06</span>
-                    <h3>Vive de la electronica de autos</h3>
-                    <p>Programa dirigido a convertir conocimiento tecnico en servicio recurrente dentro del mercado automotriz.</p>
-                    <div class="course-meta">
-                        <span>Acceso al detalle</span>
-                        <span class="click-count is-loading" data-click-display="modulo-06">Clicks: <strong>...</strong></span>
-                    </div>
-                    <a href="https://go.hotmart.com/G103698963J?dp=1" target="_blank" rel="noopener noreferrer" class="course-link" data-course-key="modulo-06">Ver informacion</a>
-                </article>
-            </div>
-        </div>
-    </main>
-
-    <section id="contacto" class="page-shell contact-section">
-        <div class="contact-layout">
-            <div>
-                <span class="eyebrow">Contacto directo</span>
-                <h2 style="margin-top:14px; font-size:clamp(1.9rem, 4vw, 2.8rem);">Necesitas asesoria personalizada?</h2>
-                <p>
-                    Si tienes dudas sobre acceso, temarios o que modulo te conviene tomar primero, usa los canales directos.
-                </p>
-            </div>
-
-            <div class="contact-actions">
-                <a href="https://wa.me/51944085764" target="_blank" rel="noopener noreferrer" class="contact-link whatsapp">WhatsApp soporte</a>
-                <a href="https://t.me/ScanMatic_AutoTech" target="_blank" rel="noopener noreferrer" class="contact-link telegram">Comunidad Telegram</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="page-shell">
-            &copy; 2026 SCANMATIC AUTOTECH | Innovacion en diagnostico automotriz
-        </div>
-    </footer>
-    <script>
-        (function () {
-            const COUNTER_API = "https://api.countapi.xyz";
-            const visitCounter = document.getElementById("visit-counter");
-            const courseLinks = Array.from(document.querySelectorAll("[data-course-key]"));
-            const clickDisplays = Array.from(document.querySelectorAll("[data-click-display]"));
-
-            function makeNamespace() {
-                const host = window.location.hostname || "local-scanmatic";
-                const path = window.location.pathname || "/index.html";
-                return (host + path)
-                    .toLowerCase()
-                    .replace(/[^a-z0-9]+/g, "-")
-                    .replace(/^-+|-+$/g, "");
-            }
-
-            const namespace = makeNamespace();
-
-            async function hitCounter(key) {
-                const response = await fetch(COUNTER_API + "/hit/" + namespace + "/" + key, {
-                    method: "GET",
-                    cache: "no-store"
-                });
-
-                if (!response.ok) {
-                    throw new Error("Counter request failed");
-                }
-
-                return response.json();
-            }
-
-            async function getCounter(key) {
-                const response = await fetch(COUNTER_API + "/get/" + namespace + "/" + key, {
-                    method: "GET",
-                    cache: "no-store"
-                });
-
-                if (response.status === 404) {
-                    return { value: 0 };
-                }
-
-                if (!response.ok) {
-                    throw new Error("Counter request failed");
-                }
-
-                return response.json();
-            }
-
-            function setVisitValue(value) {
-                if (!visitCounter) {
-                    return;
-                }
-
-                visitCounter.textContent = new Intl.NumberFormat("es-PE").format(value);
-                visitCounter.classList.remove("is-loading");
-            }
-
-            function setClickValue(key, value) {
-                const display = document.querySelector('[data-click-display="' + key + '"] strong');
-
-                if (!display) {
-                    return;
-                }
-
-                display.textContent = new Intl.NumberFormat("es-PE").format(value);
-                display.parentElement.classList.remove("is-loading");
-            }
-
-            async function loadVisitCounter() {
-                try {
-                    const data = await hitCounter("visitas");
-                    setVisitValue(data.value || 0);
-                } catch (error) {
-                    setVisitValue(0);
-                }
-            }
-
-            async function loadClickCounters() {
-                await Promise.all(clickDisplays.map(async function (display) {
-                    const key = display.getAttribute("data-click-display");
-
-                    try {
-                        const data = await getCounter("click-" + key);
-                        setClickValue(key, data.value || 0);
-                    } catch (error) {
-                        setClickValue(key, 0);
-                    }
-                }));
-            }
-
-            courseLinks.forEach(function (link) {
-                link.addEventListener("click", function () {
-                    const key = link.getAttribute("data-course-key");
-                    const display = document.querySelector('[data-click-display="' + key + '"] strong');
-                    const currentValue = display ? Number(display.textContent.replace(/[^\d]/g, "")) || 0 : 0;
-
-                    setClickValue(key, currentValue + 1);
-
-                    fetch(COUNTER_API + "/hit/" + namespace + "/click-" + key, {
-                        method: "GET",
-                        cache: "no-store",
-                        keepalive: true
-                    }).catch(function () {
-                        setClickValue(key, currentValue);
-                    });
-                });
-            });
-
-            loadVisitCounter();
-            loadClickCounters();
-        })();
-    </script>
-</body>
-</html>
+<script>
+(function () {
+  const COUNTER_API = "https://api.countapi.xyz";
+  const visitCounter = document.getElementById("visit-counter");
+  const courseLinks = Array.from(document.querySelectorAll("[data-course-key]"));
+  const clickDisplays = Array.from(document.querySelectorAll("[data-click-display]"));
+
+  function makeNamespace() {
+    // Si estás en file:// hostname es vacío -> usamos un nombre fijo.
+    const host = window.location.hostname || "local-scanmatic";
+    // Ojo: en algunos hosts window.location.pathname puede ser largo; igual lo normaliza.
+    const path = window.location.pathname || "/index.html";
+    return (host + path)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 60); // evita namespaces demasiado largos
+  }
+
+  const namespace = makeNamespace();
+
+  async function apiGet(url) {
+    const res = await fetch(url, { method: "GET", cache: "no-store", mode: "cors" });
+    return res;
+  }
+
+  async function ensureCounter(key) {
+    // Si no existe, la creamos en 0 (evita 404 repetidos y “cero fantasma”).
+    const getRes = await apiGet(`${COUNTER_API}/get/${namespace}/${key}`);
+    if (getRes.status === 404) {
+      // create: namespace + key + value
+      await apiGet(`${COUNTER_API}/create?namespace=${encodeURIComponent(namespace)}&key=${encodeURIComponent(key)}&value=0`);
+      return { value: 0 };
+    }
+    if (!getRes.ok) throw new Error("Counter GET failed");
+    return await getRes.json();
+  }
+
+  async function hitCounter(key) {
+    // hit normalmente crea si no existe, pero aseguramos consistencia
+    await ensureCounter(key);
+    const res = await apiGet(`${COUNTER_API}/hit/${namespace}/${key}`);
+    if (!res.ok) throw new Error("Counter HIT failed");
+    return await res.json();
+  }
+
+  function formatNumber(value) {
+    return new Intl.NumberFormat("es-PE").format(Number(value) || 0);
+  }
+
+  function setVisitValue(value) {
+    if (!visitCounter) return;
+    visitCounter.textContent = formatNumber(value);
+    visitCounter.classList.remove("is-loading");
+  }
+
+  function setClickValue(key, value) {
+    const strong = document.querySelector(`[data-click-display="${key}"] strong`);
+    if (!strong) return;
+    strong.textContent = formatNumber(value);
+    strong.parentElement.classList.remove("is-loading");
+  }
+
+  function getDisplayedClickValue(key) {
+    const strong = document.querySelector(`[data-click-display="${key}"] strong`);
+    if (!strong) return 0;
+    const n = Number(String(strong.textContent).replace(/[^\d]/g, ""));
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  async function loadVisitCounter() {
+    try {
+      const data = await hitCounter("visitas");
+      setVisitValue(data.value ?? 0);
+    } catch (e) {
+      // Si esto te queda en 0, abre consola para ver el error real
+      console.error("VISIT COUNTER ERROR:", e);
+      setVisitValue(0);
+    }
+  }
+
+  async function loadClickCounters() {
+    await Promise.all(clickDisplays.map(async (display) => {
+      const key = display.getAttribute("data-click-display");
+      try {
+        const data = await ensureCounter("click-" + key);
+        setClickValue(key, data.value ?? 0);
+      } catch (e) {
+        console.error("CLICK COUNTER LOAD ERROR:", key, e);
+        setClickValue(key, 0);
+      }
+    }));
+  }
+
+  // Interceptamos el click para asegurar que el HIT se ejecute ANTES de abrir el link.
+  courseLinks.forEach((link) => {
+    link.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      const key = link.getAttribute("data-course-key");
+      const url = link.href;
+
+      // UI optimista
+      const currentValue = getDisplayedClickValue(key);
+      setClickValue(key, currentValue + 1);
+
+      try {
+        const data = await hitCounter("click-" + key);
+        setClickValue(key, data.value ?? (currentValue + 1));
+      } catch (e) {
+        console.error("CLICK HIT ERROR:", key, e);
+        // revert si quieres (opcional):
+        // setClickValue(key, currentValue);
+      }
+
+      // Abrimos después de contar (más confiable en móvil)
+      window.open(url, "_blank", "noopener,noreferrer");
+    }, { passive: false });
+  });
+
+  // IMPORTANTE: si pruebas en file://, usa un servidor http local.
+  loadVisitCounter();
+  loadClickCounters();
+})();
+</script>
