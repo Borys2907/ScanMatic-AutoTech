@@ -620,7 +620,7 @@
 
                     <div class="hero-stats">
                         <div class="stat">
-                            <span class="stat-value">6</span>
+                            <span id="module-counter" class="stat-value">0</span>
                             <span class="stat-label">Modulos activos</span>
                         </div>
                         <div class="stat">
@@ -761,6 +761,7 @@
     <script>
         (function () {
             const COUNTER_API = "https://countapi.mileshilliard.com/api/v1";
+            const moduleCounter = document.getElementById("module-counter");
             const visitCounter = document.getElementById("visit-counter");
             const courseLinks = Array.from(document.querySelectorAll("[data-course-key]"));
             const clickDisplays = Array.from(document.querySelectorAll("[data-click-display]"));
@@ -819,6 +820,14 @@
                 visitCounter.classList.remove("is-loading");
             }
 
+            function setModuleValue() {
+                if (!moduleCounter) {
+                    return;
+                }
+
+                moduleCounter.textContent = new Intl.NumberFormat("es-PE").format(courseLinks.length);
+            }
+
             function setClickValue(key, value) {
                 const display = document.querySelector('[data-click-display="' + key + '"] strong');
 
@@ -870,6 +879,7 @@
                 });
             });
 
+            setModuleValue();
             loadVisitCounter();
             loadClickCounters();
         })();
